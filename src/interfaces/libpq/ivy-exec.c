@@ -1170,9 +1170,10 @@ IvyHandleAlloc(const void *parent,
 
 			prepared = (IvyPreparedStatement *) *hndlpp;
 			/* init s_lock */
-			if (PGSemaphoreCreate(&prepared->lock) == 0)
+			if (PGSemaphoreCreate(&prepared->lock) <= 0)
 			{
 				free(prepared);
+				*hndlpp = NULL;
 				return result;
 			}
 
